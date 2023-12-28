@@ -1,5 +1,19 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
+
+// 请求接口
+axios.get('http://192.168.110.87:8000/project/list')
+  .then(function (response) {
+    // 处理请求成功的结果
+    console.log(response.data)
+    const tableData = response.data
+    
+  })
+  .catch(function (error) {
+    // 处理请求失败的结果
+    console.log("请求失败，原因是",error)
+  });
+
 </script>
 
 <template>

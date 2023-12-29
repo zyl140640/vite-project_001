@@ -1,21 +1,3 @@
-<script setup>
-import axios from 'axios';
-
-// 请求接口
-axios.get('http://192.168.110.87:8000/project/list')
-  .then(function (response) {
-    // 处理请求成功的结果
-    console.log(response.data)
-    const tableData = response.data
-    
-  })
-  .catch(function (error) {
-    // 处理请求失败的结果
-    console.log("请求失败，原因是",error)
-  });
-
-</script>
-
 <template>
   <el-container class="layout-container-demo" style="height: 500px">
     <el-aside width="200px">
@@ -60,15 +42,51 @@ axios.get('http://192.168.110.87:8000/project/list')
         <el-scrollbar>
           <el-table :data="tableData">
             <el-table-column prop="id" label="序号"  />
-            <el-table-column prop="Project_Name" label="项目名称"  />
-            <el-table-column prop="Project_CreatedBy" label="创建人" />
-            <el-table-column prop="Project_Description" label="创建时间" />
+            <el-table-column prop="project_name" label="项目名称"  />
+            <el-table-column prop="Project_creator" label="项目创建人" />
+            <el-table-column prop="Project_creation_time" label="项目创建时间" />
           </el-table>
         </el-scrollbar>
       </el-main>
     </el-container>
   </el-container>
 </template>
+
+
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      tableData: []  // 初始化表格数据为空数组
+    };
+  },
+  mounted() {
+    // 在组件挂载后，进行接口请求
+    this.fetchData({ yourQueryParam: 'value' }); // 传递查询参数
+  },
+  methods: {
+    async fetchData(params) {
+      try {
+        // 使用axios的params选项传递查询参数
+        const response = await axios.get('http://192.168.110.87:8000/project/list', {
+          params: params
+        });
+        const dataArray = Object.values(response.data);
+        // 更新tableData的值，使其等于接口返回的数据
+        console.log('Response data:', response.data);
+        console.log('转化成数组的对象:', dataArray[0]);
+        this.tableData = dataArray[0];
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+  }
+};
+</script>
+
 
 <style scoped>
 .layout-container-demo .el-header {

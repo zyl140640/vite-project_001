@@ -60,7 +60,7 @@ pipeline {
                 script {
                     // 使用SSH执行Windows命令，例如重启Windows服务
                     sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
-                        sh "ssh 用户名@服务器地址 'powershell -Command \"...其他PowerShell命令...\"'"
+                        sh "ipconfig "
                     }
                 }
             }
